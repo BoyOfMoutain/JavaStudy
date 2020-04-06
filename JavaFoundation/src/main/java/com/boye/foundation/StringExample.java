@@ -3,6 +3,7 @@ package com.boye.foundation;
 public class StringExample {
 
     public static void main(String[] args) {
+
         StringBuilder sb1 = new StringBuilder("hello world");
         System.out.println(sb1.reverse());
         System.out.println(sb1.charAt(4));
