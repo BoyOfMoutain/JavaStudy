@@ -6,6 +6,7 @@ import java.io.IOException;
 public class FileExample {
 
     public static void main(String[] args) throws IOException {
+
         File file = new File("/Users/dongboye/Desktop/password.txt");
         System.out.println("getAbsoluteFile = "+file.getAbsoluteFile());
         System.out.println("getAbsolutePath = " + file.getAbsolutePath());
