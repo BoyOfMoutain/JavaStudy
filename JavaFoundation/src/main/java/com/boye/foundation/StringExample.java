@@ -11,7 +11,7 @@ public class StringExample {
         System.out.println(sb1.reverse());
         sb1.insert(2,"-dog-");
         System.out.println(sb1);
-        sb1.replace(3,6, "我叫爸爸,呵呵");
+        sb1.replace(3,6, "我叫爸爸");
         System.out.println(sb1);
         System.out.println(sb1.subSequence(3, 7));
         System.out.println(sb1.substring(3, 7));
