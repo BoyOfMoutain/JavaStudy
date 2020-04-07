@@ -212,15 +212,18 @@ public class MyLinkedList<T> {
     public Iterator<T> iterator(){
         //匿名类
         return new Iterator<T>(){
-            private int index;
+            private Node<T> node = head;
             @Override
             public boolean hasNext() {
-                return index < size;
+                return !Objects.isNull(node);
             }
 
             @Override
             public T next() {
-                return get(index++);
+                T t = node.data;
+                ////转移到下一个节点
+                node = node.next;
+                return t;
             }
         };
     }
