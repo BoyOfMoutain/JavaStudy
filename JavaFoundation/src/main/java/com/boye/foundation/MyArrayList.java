@@ -207,7 +207,8 @@ class MyArrayListTest {
         list.add(5);
         printList(list);
         System.out.println("size = "+ list.size());
-        list.remove(0);
+        int r = list.remove(0);
+        System.out.println("remove :" + r);
         printArray(list.toArray());
         printListByMyIterator(list);
     }
