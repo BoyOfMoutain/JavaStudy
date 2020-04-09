@@ -5,9 +5,8 @@ import static java.lang.Thread.sleep;
 //共享锁，可以选择不同的对象：this、static 修饰的object、当前类.class
 public class SoldTicketWindow{
 
-    private static Object hello = new Object();
-
-    public synchronized void methodA ( ){//方法锁
+    //如果是实现Runnable的方法，就不用static，直接用synchronized
+    public synchronized void methodA ( ){//方法锁，同步监视器其实就是this
         System.out.println("methodA.....");
         try {
             Thread.sleep(1000);
@@ -28,8 +27,7 @@ public class SoldTicketWindow{
     }
 
     public void methodC() {
-
-        synchronized (hello) {//对象锁
+        synchronized (SoldTicketWindow.class) {//对象锁
             System.out.println("methodC.....");
             try {
                 Thread.sleep(1000);
@@ -39,8 +37,23 @@ public class SoldTicketWindow{
         }
     }
 
+    //如果被继承类Thread来执行的话，就得加static
+    public static synchronized void methodD() {//方法锁，同步监视器其实就是SoldTicketWindow.class
+        System.out.println("methodD.....");
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 }
-
+//所以注意方法的调用
+class SoldTicketWindowThread extends Thread{
+    @Override
+    public void run() {
+        SoldTicketWindow.methodD();
+    }
+}
 /**
  * 所谓的锁，要体现共享性的对象。对于实现接口的线程。是不需要加static，因为该对象只有一个副本
  */
@@ -49,10 +62,10 @@ class SoldTicketWindow1 implements  Runnable{
     private Object lock = new Object();//对象锁，注意，可以不用static，实现的是Runnable接口
 
     @Override
-    public synchronized void run() {
+    public void run() {
         //synchronized(lock)
-        //synchronized(lock)
-        synchronized(lock){
+        //synchronized(this)
+        synchronized(SoldTicketWindow1.class){
             while (true){
                 if(ticket > 0){
                     try {
@@ -79,6 +92,8 @@ class SoldTicketWindow2 extends Thread{
     private static Object lock = new Object();//对象锁，注意，可以不用static，实现的是Runnable接口
     @Override
     public void run() {
+        //synchronized(lock)
+        //synchronized(this)
         synchronized(SoldTicketWindow2.class){
             while (true){
                 if(ticket > 0){
@@ -104,13 +119,14 @@ class SoldTicketWindowTest{
         SoldTicketWindow soldTicketWindow = new SoldTicketWindow();
         new Thread(soldTicketWindow::methodB, "线程二").start();
         new Thread(soldTicketWindow::methodA, "线程一").start();
-
         new Thread(new Runnable() {
             @Override
             public void run() {
                 soldTicketWindow.methodC();
             }
         }, "线程三").start();
+        SoldTicketWindowThread ticketWindowThread = new SoldTicketWindowThread();
+        ticketWindowThread.start();
 
         //继承Thread和实现Runnable接口的锁,不一样。
         SoldTicketWindow1 soldTicketWindow1 = new SoldTicketWindow1();
