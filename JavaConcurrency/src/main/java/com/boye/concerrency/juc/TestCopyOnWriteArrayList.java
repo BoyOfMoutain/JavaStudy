@@ -1,15 +1,7 @@
 package com.boye.concerrency.juc;
 
-import com.boye.concerrency.util.ObjectAddressUtil;
-import jdk.internal.misc.Unsafe;
-
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
-import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
-
-import static jdk.internal.misc.Unsafe.getUnsafe;
 
 /***
  * CopyOnWriteArrayList / CopyOnWriteArraySet

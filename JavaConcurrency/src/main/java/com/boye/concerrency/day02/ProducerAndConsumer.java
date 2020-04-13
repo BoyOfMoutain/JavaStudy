@@ -5,31 +5,29 @@ class Product{
     private int productNum = 0;
 
     public synchronized void produce(){
-        if(productNum < 10){
-            notify();
-            productNum ++;
-            System.out.println(Thread.currentThread().getName() + "开始生产第" + productNum +"产品");
-        }else {
+        while(productNum > 5){//大于1，停止生产
             try {
                 wait();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
+        notify();
+        productNum ++;
+        System.out.println(Thread.currentThread().getName() + "开始生产第" + productNum +"产品");
     }
 
     public synchronized void consume(){
-        if(productNum > 0){
-            notify();
-            System.out.println(Thread.currentThread().getName() + "开始消费第"+ productNum +"产品");
-            productNum --;
-        }else{
+        while(productNum <= 0){//小于等于0，停止消费
             try {
                 wait();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
+        notify();
+        System.out.println(Thread.currentThread().getName() + "开始消费第"+ productNum +"产品");
+        productNum --;
     }
 }
 
@@ -43,12 +41,15 @@ class Producer extends Thread{
 
     @Override
     public void run() {
-        while (true){
+       /* for (int i = 0; i < 20; i++) {
             try {
                 Thread.sleep(30);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            product.produce();
+        }*/
+        while(true){
             product.produce();
         }
     }
@@ -63,12 +64,15 @@ class Consumer extends  Thread{
 
     @Override
     public void run() {
-        while(true){
+        /*for (int i = 0; i < 20; i++) {
             try {
                 Thread.sleep(20);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            product.consume();
+        }*/
+        while(true){
             product.consume();
         }
     }
@@ -76,13 +80,16 @@ class Consumer extends  Thread{
 public class ProducerAndConsumer {
     public static void main(String[] args) {
         Product product = new Product();//初始化产品
-        Producer p =  new Producer(product);
-        p.setName("生产者");
+        Producer p1 =  new Producer(product);
+        Producer p2 =  new Producer(product);
+        p1.setName("生产者A");
+        p2.setName("生产者B");
         Consumer c1 = new Consumer(product);
-        c1.setName("消费者1");
+        c1.setName("消费者C");
         Consumer c2 = new Consumer(product);
-        c2.setName("消费者2");
-        p.start();
+        c2.setName("消费者D");
+        p1.start();
+        p2.start();
         c1.start();
         c2.start();
     }
