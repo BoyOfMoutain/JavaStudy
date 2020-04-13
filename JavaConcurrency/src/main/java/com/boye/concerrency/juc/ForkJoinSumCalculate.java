@@ -18,7 +18,7 @@ public class ForkJoinSumCalculate extends RecursiveTask<Long> {
 
     private long start;
     private long end;
-    private final static long THURSHOLD = 0L;
+    private final static long THURSHOLD = 1000L;
 
     public ForkJoinSumCalculate(long start, long end){
         this.start = start;
@@ -50,15 +50,15 @@ class TestForkJoinPool{
 
     public static void main(String[] args) {
 
-        fun();
+        //fun();
        // fun1();
-       // fun2();
+        fun2();
     }
 
     public static void fun(){
         Instant start = Instant.now();
         ForkJoinPool forkJoinPool = new ForkJoinPool();
-        ForkJoinTask<Long> task = new ForkJoinSumCalculate(0L,  500000000L);
+        ForkJoinTask<Long> task = new ForkJoinSumCalculate(0L,  50000000000L);
         Long sum = forkJoinPool.invoke(task);
         System.out.println(sum);
         Instant end = Instant.now();
@@ -68,7 +68,7 @@ class TestForkJoinPool{
     public static void fun1(){
         Instant start = Instant.now();
         long sum = 0L;
-        for (long i = 0; i < 500000000L; i++) {
+        for (long i = 0; i < 50000000000L; i++) {
             sum += i;
         }
         System.out.println(sum);
@@ -79,7 +79,7 @@ class TestForkJoinPool{
     //java8的并行流计算
     public static void fun2(){
         Instant start = Instant.now();
-        Long sum = LongStream.rangeClosed(0L, 500000000L).parallel().reduce(0, Long::sum);
+        Long sum = LongStream.rangeClosed(0L, 50000000000L).parallel().reduce(0, Long::sum);
         System.out.println(sum);
         Instant end = Instant.now();
         System.out.println("历时是"+ Duration.between(start, end).toMillis() + "ms");
