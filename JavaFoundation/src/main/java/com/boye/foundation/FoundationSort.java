@@ -91,11 +91,11 @@ public class FoundationSort {
             return;
         }
         int i = low, j = high, p = arr[(high - low) / 2 + low];
-        while(i <= j){//这个算法就是把小于p的数字放在坐标，大于p的数字放在右边
+        while(i <= j){//这个算法就是把小于p的数字放在左边，大于p的数字放在右边
             while(arr[i] < p){//前面的数字与p比较，比p小的话，就让i+1，相当于往后挪一位
                 ++i;
             }
-            while(arr[j] > p){//后面的数字与p比较，比p大的话，就让j-1，相当于往后挪一位
+            while(arr[j] > p){//后面的数字与p比较，比p大的话，就让j-1，相当于往前挪一位
                 --j;
             }
             if(i < j){//交换i和j的数字
