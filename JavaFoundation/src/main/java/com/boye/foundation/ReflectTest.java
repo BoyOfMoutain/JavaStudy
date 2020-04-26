@@ -9,9 +9,9 @@ public class ReflectTest {
         Class clazz = Class.forName("com.boye.foundation.Student");
         Constructor constructor = clazz.getConstructor();
         Student student = (Student) constructor.newInstance();
-        student.setStuId(1008);
-        student.setStuName("我爱你，祖国");
-        student.setStuNumber("OX-ds-888");
+        student.setAge(1008);
+        student.setName("我爱你，祖国");
+        student.setSex("OX-ds-888");
         System.out.println(student);
         System.out.println("-------------------------------------------------");
         Field[] fields = clazz.getDeclaredFields();

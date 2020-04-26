@@ -1,49 +1,68 @@
 package com.boye.foundation;
 
-public class Student {
-    private String stuName;
-    private int stuId;
-    private String stuNumber;
+import java.io.Serializable;
+
+/**
+ * static 和 transient这两个字段修饰后不能被序列化
+ */
+public class Student implements Serializable {
+
+    private static final long serialVersionUID = 8722717866511568636L;
+    private static String name;
+    private transient String sex;
+    private int age;
+    private Account account;
+
 
     public Student() {
     }
 
-    public Student(String stuName, int stuId, String stuNumber) {
-        this.stuName = stuName;
-        this.stuId = stuId;
-        this.stuNumber = stuNumber;
+    public String getName() {
+        return name;
     }
 
-    public String getStuName() {
-        return stuName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setStuName(String stuName) {
-        this.stuName = stuName;
+    public String getSex() {
+        return sex;
     }
 
-    public int getStuId() {
-        return stuId;
+    public void setSex(String sex) {
+        this.sex = sex;
     }
 
-    public void setStuId(int stuId) {
-        this.stuId = stuId;
+    public int getAge() {
+        return age;
     }
 
-    public String getStuNumber() {
-        return stuNumber;
+    public void setAge(int age) {
+        this.age = age;
     }
 
-    public void setStuNumber(String stuNumber) {
-        this.stuNumber = stuNumber;
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
+    public Student(String name, String sex, int age, Account account) {
+        this.name = name;
+        this.sex = sex;
+        this.age = age;
+        this.account = account;
     }
 
     @Override
     public String toString() {
         return "Student{" +
-                "stuName='" + stuName + '\'' +
-                ", stuId=" + stuId +
-                ", stuNumber='" + stuNumber + '\'' +
+                "name='" + name + '\'' +
+                ", sex='" + sex + '\'' +
+                ", age=" + age +
+                ", account=" + account +
                 '}';
     }
 }
